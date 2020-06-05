@@ -4,6 +4,8 @@ from transformers import BertTokenizer, BertModel
 import numpy
 
 DEFAULT_MODEL_PATH = "models/bert-base-cased"
+if not os.path.exists(DEFAULT_MODEL_PATH):
+    DEFAULT_MODEL_PATH = "KB/bert-base-swedish-cased"
 
 class TextTransform():
     
@@ -14,8 +16,11 @@ class TextTransform():
         self.do_lower_case = do_lower_case
         
     def text_to_int(self, sentence):
-        vocabulary = os.path.join(self.pre_trained_model, "vocab.txt")
-        tokenizer = BertTokenizer(vocab_file=vocabulary, do_lower_case=self.do_lower_case)
+        if os.path.exists(self.pre_trained_model):
+            vocabulary = os.path.join(self.pre_trained_model, "vocab.txt")
+            tokenizer = BertTokenizer(vocab_file=vocabulary, do_lower_case=self.do_lower_case)
+        else:
+            tokenizer = BertTokenizer.from_pretrained(self.pre_trained_model, do_lower_case=self.do_lower_case)
         temp_token = []
         temp_token = ['[CLS]']+ tokenizer.tokenize(sentence)
 

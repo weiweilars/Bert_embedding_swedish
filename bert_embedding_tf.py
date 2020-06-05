@@ -4,6 +4,8 @@ import tensorflow as tf
 import numpy as np
 
 DEFAULT_MODEL_PATH = "models/bert-base-uncased"
+if not os.path.exists(DEFAULT_MODEL_PATH):
+    DEFAULT_MODEL_PATH = "af-ai-center/bert-base-swedish-uncased"
 
 class TextTransform():
     
